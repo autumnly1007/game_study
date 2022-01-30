@@ -3,6 +3,7 @@
 const carrotSound = new Audio('./sound/carrot_pull.mp3');
 const CARROT_SIZE = 80;
 
+
 export default class Field {
     constructor(carrotCount, bugCount) {
         this.carrotCount = carrotCount;
@@ -47,12 +48,9 @@ export default class Field {
         const target = event.target;
         if (target.matches('.carrot')) {
             target.remove();
-            playSound(carrotSound);
-            sound.PlayCarrot();
             this.onItemClick && this.onItemClick('carrot');
             
         } else if (target.matches('.bug')) {
-            finishGame(false);
             this.onItemClick && this.onItemClick('bug');
         }
     }
