@@ -15,7 +15,7 @@ export default class Field {
     init() {
         this.field.innerHTML = '';
         this._addItem('carrot', this.carrotCount, 'img/carrot.png');
-        this._addItem('bug', BUG_COUNT, 'img/bug.png');
+        this._addItem('bug', this.bugCount, 'img/bug.png');
     }
 
     setClickListener(onItemClick) {
@@ -25,8 +25,8 @@ export default class Field {
     _addItem(className, count, imgPath) {
         const x1 = 0;
         const y1 = 0;
-        const x2 = fieldRect.width - CARROT_SIZE;
-        const y2 = fieldRect.height - CARROT_SIZE;
+        const x2 = this.fieldRect.width - CARROT_SIZE;
+        const y2 = this.fieldRect.height - CARROT_SIZE;
 
         for (let i = 0; i < count; i++) {
             const item = document.createElement('img');
@@ -43,11 +43,12 @@ export default class Field {
         }
     }
 
-    onClick(event) {
+    onClick = (event) => {
         const target = event.target;
         if (target.matches('.carrot')) {
             target.remove();
             playSound(carrotSound);
+            sound.PlayCarrot();
             this.onItemClick && this.onItemClick('carrot');
             
         } else if (target.matches('.bug')) {
@@ -57,7 +58,7 @@ export default class Field {
     }
 }
 
-function playSound(sound) {
-    sound.currentTime = 0;
-    sound.play();
+function randomNum(min, max) {
+    return Math.random() * (max - min) + min;
 }
+
