@@ -1,12 +1,7 @@
 'use strict';
 
-import Field from './field.js';
-
-export const Reason = Object.freeze({
-    win: 'win'
-    , lose: 'lose'
-    , cancel:  'cancel'
-});
+import { Field, ItemType } from './field.js';
+import * as sound from './sound.js';
 
 // Builder Pattern
 export class GameBuilder {
@@ -33,6 +28,12 @@ export class GameBuilder {
         );
     }
 }
+
+export const Reason = Object.freeze({
+    win: 'win'
+    , lose: 'lose'
+    , cancel:  'cancel'
+});
 
 class Game {
 
@@ -82,24 +83,29 @@ class Game {
         this.onGameStop && this.onGameStop(reason);
     }
 
-    onItemClick = (event) => {
+    initGame() {
+        this.score = 0;
+        this.updateScoreBoard(this.score);
+        this.gameField.init();
+    }
+
+    onItemClick = item => {
         if (!this.started) {
             return;
         }
-        const target = event.target;
-        if (target.matches('.carrot')) {
+        if (item === ItemType.carrot) {
             this.score++;
-            this.updateScoreBoard();
-            sound.PlayCarrot();
+            this.updateScoreBoard(this.score);
+            sound.playCarrot();
 
             if (this.score === this.carrotCount) {
                 this.stop(Reason.win);
             }
             
-        } else if (target.matches('.bug')) {
+        } else if (item === ItemType.bug) {
             this.stop(Reason.lose);
         }
-    };
+    }
 
     showStopButton() {
         const icon = this.gameBtn.querySelector('.fas');
@@ -140,14 +146,8 @@ class Game {
         this.gameTimer.innerText = `${minutes}:${seconds}`;
     }
 
-    initGame() {
-        this.score = 0;
-        this.gameScore.innerText = this.carrotCount;
-        this.gameField.init();
-    }
-
-    updateScoreBoard() {
-        this.gameScore.innerText = this.carrotCount - score;
+    updateScoreBoard(newScore) {
+        this.gameScore.innerText = this.carrotCount - newScore;
     }
 }
 

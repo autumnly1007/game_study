@@ -1,10 +1,15 @@
 'use strict';
 
-const carrotSound = new Audio('./sound/carrot_pull.mp3');
+import * as sound from './sound.js';
+
 const CARROT_SIZE = 80;
 
+export const ItemType = Object.freeze({
+    carrot: 'carrot'
+    , bug: 'bug'
+});
 
-export default class Field {
+export class Field {
     constructor(carrotCount, bugCount) {
         this.carrotCount = carrotCount;
         this.bugCount = bugCount;
@@ -40,6 +45,7 @@ export default class Field {
 
             item.style.left = `${x}px`;
             item.style.top = `${y}px`;
+            item.style.userDrag = 'none';
             this.field.appendChild(item);
         }
     }
@@ -48,10 +54,10 @@ export default class Field {
         const target = event.target;
         if (target.matches('.carrot')) {
             target.remove();
-            this.onItemClick && this.onItemClick('carrot');
+            this.onItemClick && this.onItemClick(ItemType.carrot);
             
         } else if (target.matches('.bug')) {
-            this.onItemClick && this.onItemClick('bug');
+            this.onItemClick && this.onItemClick(ItemType.bug);
         }
     }
 }

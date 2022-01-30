@@ -18,6 +18,9 @@ export function playAlert() {
 export function playWin() {
     playSound(winSound);
 }
+export function playLost() {
+    playSound(bugSound);
+}
 export function playBackground() {
     playSound(bgSound);
 }

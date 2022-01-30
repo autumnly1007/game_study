@@ -1,14 +1,14 @@
 'use strict';
 
-import GameBuilder, { Reason } from './game.js';
+import {GameBuilder, Reason} from './game.js';
 import * as sound from './sound.js';
 import PopUp from './popup.js';
 
 const gameFinishBanner = new PopUp();
 const game = new GameBuilder()
-    .gameDuration(5)
-    .carrotCount(3)
-    .bugCount(3)
+    .gameDuration(10)
+    .carrotCount(10)
+    .bugCount(5)
     .build();
 
 game.setGameStopListener((reason) => {
